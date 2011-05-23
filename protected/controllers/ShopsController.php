@@ -8,10 +8,7 @@ class ShopsController extends Controller
 
 		if (isset($_POST['CsvForm'])) {
 			if ($model->validate()) {
-				$csv = CUploadedFile::getInstance($model,'csv');
-
-				$csvData = Shops::readCsvData($csv->tempName);
-				Shops::insertToDB($csvData);
+				$this->redirect(array('success'));
 			}
 		}
 
@@ -19,6 +16,11 @@ class ShopsController extends Controller
 		$this->render('import', array(
 			'model'=>$model,
 		));
+	}
+
+	public function actionSuccess()
+	{
+		$this->render('success');
 	}
 
 	public function actionIndex()

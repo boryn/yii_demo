@@ -17,8 +17,28 @@ class CsvForm extends CFormModel
 		return array(
 			// name, email, subject and body are required
 			array('csv', 'file',  'types'=>'csv'),
+			array('csv', 'customFunc')
 		);
 	}
+
+	
+	/**
+	* Custom function for informing about possible upload / database insert errors.
+	*/
+	public function customFunc($attribute,$params)
+    {
+		//If encountered any previous errors, return
+		if ($this->hasErrors()) {
+			return;
+		}
+
+		$csv = CUploadedFile::getInstance($this,'csv');
+		$csvData = Shops::readCsvData($csv->tempName);
+		
+		if (!Shops::insertToDB($csvData)) {
+			$this->addError('csv','There were errors importing your file.');
+		}
+    }
 
 	/**
 	 * Declares customized attribute labels.
