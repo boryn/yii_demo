@@ -33,6 +33,7 @@
 				array('label'=>'Contact', 'url'=>array('/site/contact')),
 
 				array('label'=>'Shops List', 'url'=>array('/shops/index')),
+				array('label'=>'Shops Tree', 'url'=>array('/shops/tree')),
 				array('label'=>'Shops Import', 'url'=>array('/shops/import'), 'visible'=>!Yii::app()->user->isGuest),
 
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
