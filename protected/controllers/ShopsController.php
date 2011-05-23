@@ -25,7 +25,11 @@ class ShopsController extends Controller
 
 	public function actionIndex()
 	{
-		$this->render('index');
+		$model=new Shops();
+
+		$this->render('index', array(
+			'model'=>$model,
+		));
 	}
 
 	public function actionTree()
