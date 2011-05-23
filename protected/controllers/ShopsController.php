@@ -37,6 +37,42 @@ class ShopsController extends Controller
 		$this->render('tree');
 	}
 
+	public function actionAjaxFillTree()
+	{
+		if (!isset($_GET['root'])) {
+			exit();
+		}
+
+		//"Parent" records - here voivodships
+		if ($_GET['root'] === 'source') {
+			
+			//(maybe not a perfect way to use voivodship as id...) 
+			$sql = "SELECT voivodship AS id, voivodship AS text, 1 AS hasChildren "
+                . "FROM tbl_shops "
+                . "GROUP BY voivodship ORDER BY voivodship ASC";
+            
+			$req = Yii::app()->db->createCommand($sql);
+            $children = $req->queryAll();
+        
+		//Children records - here information about shops
+		} else {
+            $sql = "SELECT id, CONCAT(city, ', ', street, ' ', place) AS text, 0 AS hasChildren "
+                . "FROM tbl_shops "
+				. "WHERE voivodship = '{$_GET['root']}' "
+                . "ORDER BY city ASC";
+            
+			$req = Yii::app()->db->createCommand($sql);
+            $children = $req->queryAll();
+        }
+
+		echo str_replace(
+            '"hasChildren":"0"',
+            '"hasChildren":false',
+            CTreeView::saveDataAsJson($children)
+        );
+        exit();
+	}
+
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()
