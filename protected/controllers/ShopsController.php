@@ -4,7 +4,11 @@ class ShopsController extends Controller
 {
 	public function actionImport()
 	{
-		$this->render('import');
+		$model=new CsvForm();
+
+		$this->render('import', array(
+			'model'=>$model,
+		));
 	}
 
 	public function actionIndex()
