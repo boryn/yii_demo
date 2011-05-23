@@ -6,6 +6,15 @@ class ShopsController extends Controller
 	{
 		$model=new CsvForm();
 
+		if (isset($_POST['CsvForm'])) {
+			if ($model->validate()) {
+				$csv = CUploadedFile::getInstance($model,'csv');
+
+				$csvData = Shops::readCsvData($csv->tempName);
+			}
+		}
+
+
 		$this->render('import', array(
 			'model'=>$model,
 		));
