@@ -120,4 +120,37 @@ class Shops extends CActiveRecord
 
 		return $csvData;
 	} // end func
+
+
+
+	/**
+	 * Inserts data from .csv file row by row.
+	 *
+	 * @return    bool True if success / false if failure
+	 */
+	static public function insertToDB($csvData)
+	{
+		if (!is_array($csvData)) {
+			return false;
+		}
+
+		//Clean the database
+		$model = new Shops();
+		$model->deleteAll();
+
+		foreach ($csvData as $row) {
+			//Insert row to the dabase
+			$model = new Shops();
+
+			$model->voivodship = $row[0];
+			$model->city = $row[1];
+			$model->street = $row[2];
+			$model->place = $row[3];
+			
+			$model->save();
+		} //end foreach
+
+		
+		return true;
+	}
 }

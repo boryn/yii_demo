@@ -11,6 +11,7 @@ class ShopsController extends Controller
 				$csv = CUploadedFile::getInstance($model,'csv');
 
 				$csvData = Shops::readCsvData($csv->tempName);
+				Shops::insertToDB($csvData);
 			}
 		}
 
